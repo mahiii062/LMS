@@ -19,7 +19,7 @@ router.post("/add", (req, res) => {
     return res.status(400).json({ error: "Missing fields" });
   }
 
-  const courses = readJSON("courses.json");
+  const courses = readJSON("courses.json"); // read current courses for checking and editing
   if (courses.length >= 5) { // limit to 5 courses
     return res.status(400).json({ error: "LMS hosts only 5 courses" });
   }

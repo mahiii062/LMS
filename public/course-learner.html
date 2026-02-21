@@ -26,6 +26,7 @@
 
     function goBack() { location.href = "/dashboard-learner.html"; }
 
+    // load course details and materials
     async function load() {
       const params = new URLSearchParams(location.search);
       const id = params.get("id");
@@ -106,6 +107,7 @@
       document.getElementById("certificateBox").innerHTML = "";
     }
 
+    // handle course purchase and unlocking
     async function buyCourse(courseId, price) {
       const secret = prompt("Enter your bank secret to pay");
       if (!secret) return;
@@ -119,6 +121,7 @@
       setTimeout(load, 600);
     }
 
+    // handle marking course as done and requesting certificate
     async function markAsDone(courseId) {
       const confirmed = confirm("Are you sure you want to mark this course as done? Your instructor will be notified to review.");
       if (!confirmed) return;
@@ -137,6 +140,7 @@
       }
     }
 
+    // handle certificate generation and retrieval
     async function getCertificate(courseId) {
       const res = await fetch("/api/cert/generate", {
         method: "POST",

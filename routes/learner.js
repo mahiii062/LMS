@@ -75,6 +75,7 @@ router.post("/request-completion", (req, res) => {
 
   res.json({ message: "Completion request sent to instructor. Please wait for approval." });
 });
+
 // GET Learner Dashboard Data (Available + Purchased)
 router.get("/dashboard/:userId", (req, res) => {
   const userId = req.params.userId;
@@ -101,4 +102,6 @@ router.get("/dashboard/:userId", (req, res) => {
     purchasedCourses
   });
 });
+
+
 module.exports = router;

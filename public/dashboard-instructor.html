@@ -86,6 +86,7 @@
     if (!user || user.role !== "instructor") location.href = "/login.html";
     document.getElementById("greet").innerText = `Welcome, ${user.name}`;
 
+    // Load instructor's courses, bank balance, and pending approvals, after the page loads
     async function load() {
       // Load courses
       const cR = await fetch("/api/courses");
@@ -106,6 +107,7 @@
       await loadPendingApprovals();
     }
 
+    // Load pending course completion approvals for the instructor
     async function loadPendingApprovals() {
       const res = await fetch(`/api/instructor/pending-approvals/${user.id}`);
       const list = await res.json();
@@ -129,6 +131,7 @@
       `).join("");
     }
 
+    // Handle approval of course completion and certificate issuance
     async function approveCompletion(userId, courseId, btn) {
       btn.disabled = true;
       btn.innerText = "Approving...";
@@ -152,6 +155,7 @@
 
     function openCourse(id) { location.href = `/course-instructor.html?id=${id}`; }
 
+    // Add new course by instructor
     async function addCourse() {
       const title = document.getElementById("newTitle").value;
       const price = document.getElementById("newPrice").value;
@@ -165,6 +169,7 @@
       load();
     }
 
+    // Collect funds for instructor
     async function collectFunds() {
       const secret = prompt("Enter bank secret:");
       if (!secret) return;

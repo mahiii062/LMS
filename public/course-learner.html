@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Learner Course Page</title>
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+
+<body>
+  <div class="app">
+    <div class="card">
+      <div class="header">
+        <h2 id="title">Course</h2>
+        <div><button onclick="goBack()">Back</button></div>
+      </div>
+
+      <div id="certificateBox" style="margin-bottom:20px;"></div>
+      <div id="main"></div>
+    </div>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) location.href = "/login.html";
+
+    function goBack() { location.href = "/dashboard-learner.html"; }
+
+    async function load() {
+      const params = new URLSearchParams(location.search);
+      const id = params.get("id");
+      const res = await fetch("/api/courses");
+      const courses = await res.json();
+
+      const course = courses.find(c => c.id === id);
+      if (!course) {
+        document.getElementById("main").innerText = "Course not found";
+        return;
+      }
+
+      const stu = course.students ? course.students.find(s => s.userId === user.id) : null;
+      const enrolled = !!stu;
+      const unlocked = stu ? !!stu.unlocked : false;
+      const completionStatus = stu ? (stu.completionStatus || "none") : "none";
+
+      document.getElementById("title").innerText = course.title;
+
+      // Build certificate/completion action area
+      let completionHTML = "";
+      if (enrolled && unlocked) {
+        if (completionStatus === "none") {
+          completionHTML = `
+            <button onclick="markAsDone('${course.id}')">✅ Mark as Done</button>
+            <p class="note" style="margin-top:6px;">Click when you've finished the course. Your instructor will review and approve your certificate.</p>
+          `;
+        } else if (completionStatus === "pending") {
+          completionHTML = `
+            <div class="note" style="padding:12px; border-left: 3px solid #f0a500;">
+              ⏳ <strong>Waiting for instructor approval...</strong><br>
+              Your completion request has been sent. You'll be able to download the certificate once approved.
+            </div>
+          `;
+        } else if (completionStatus === "approved") {
+          completionHTML = `
+            <button onclick="getCertificate('${course.id}')" style="background:#00e6a8; color:#0a1128; font-weight:bold;">
+              🎓 Download Certificate
+            </button>
+          `;
+        }
+      }
+
+      document.getElementById("main").innerHTML = `
+        <div>
+          <div class="small">Price: ${course.price}</div>
+          <div class="small">Instructor: ${course.instructorId}</div>
+
+          <div style="margin-top:12px;">
+            <h4>Materials</h4>
+            ${unlocked
+              ? `<div id="materials">${course.materials.length
+                  ? course.materials.map(m => `<div class="material-item"><strong>${m.title}</strong> — <a href="${m.url}" target="_blank">Open</a></div>`).join("")
+                  : "<div class='small'>No materials yet</div>"
+                }</div>`
+              : enrolled
+                ? "<div class='note'>Processing payment / unlocking — you already purchased.</div>"
+                : "<div class='note'>Buy the course to access materials</div>"
+            }
+          </div>
+
+          <div style="margin-top:16px;">
+            ${!enrolled
+              ? `<button onclick="buyCourse('${course.id}', ${course.price})">Buy Course</button>`
+              : `<button disabled>Already Purchased</button>`
+            }
+          </div>
+
+          <div style="margin-top:16px;" id="completionArea">
+            ${completionHTML}
+          </div>
+
+          <p id="msg" class="note"></p>
+        </div>
+      `;
+
+      // Show certificate box if already approved and generated before
+      document.getElementById("certificateBox").innerHTML = "";
+    }
+
+    async function buyCourse(courseId, price) {
+      const secret = prompt("Enter your bank secret to pay");
+      if (!secret) return;
+      const res = await fetch("/api/learner/buy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, courseId, secret })
+      });
+      const j = await res.json();
+      document.getElementById("msg").innerText = j.message || j.error || JSON.stringify(j);
+      setTimeout(load, 600);
+    }
+
+    async function markAsDone(courseId) {
+      const confirmed = confirm("Are you sure you want to mark this course as done? Your instructor will be notified to review.");
+      if (!confirmed) return;
+
+      const res = await fetch("/api/learner/request-completion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, courseId })
+      });
+      const j = await res.json();
+      if (res.ok) {
+        alert(j.message);
+        load(); // refresh UI to show pending state
+      } else {
+        alert(j.error || "Something went wrong.");
+      }
+    }
+
+    async function getCertificate(courseId) {
+      const res = await fetch("/api/cert/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, courseId })
+      });
+      const j = await res.json();
+      if (j.url) {
+        document.getElementById("certificateBox").innerHTML = `
+          <div class="cert-success" style="padding:20px; background:#0b1220; border-radius:12px; text-align:center;">
+            <h3 style="color:#00e6a8;">🎉 Certificate Ready!</h3>
+            <a href="${j.url}" target="_blank" class="btn-primary">Download Certificate</a>
+          </div>
+        `;
+      } else {
+        alert(j.error || "Failed to generate certificate.");
+      }
+    }
+
+    load();
+  </script>
+</body>
+
+</html>

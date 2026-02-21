@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Learner Dashboard</title>
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+
+<body class="page-bg">
+  <div class="app">
+    <div class="card">
+      <div class="header">
+        <h2 id="greet">Learner Dashboard</h2>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+      <div id="bankInfo" class="small"></div>
+      <h3>Available Courses</h3>
+      <div id="coursesArea" class="course-list"></div>
+    </div>
+  </div>
+
+  <script>
+    // read info from local storage & if does not exist, redirect to login
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || user.role !== "learner") location.href = "/login.html";
+
+    document.getElementById("greet").innerText = `Welcome, ${user.name}`;
+
+    // show all courses in the user dashboard
+    async function load() {
+      const cR = await fetch("/api/courses");
+      const courses = await cR.json();
+
+      const area = document.getElementById("coursesArea");
+      area.innerHTML = "";
+
+      courses.forEach(c => {
+        area.innerHTML += `
+        <div class="course">
+          <strong>${c.title}</strong>
+          <div class="small">Price: ${c.price}</div>
+          <button onclick="openCourse('${c.id}')">View</button>
+        </div>`;
+      });
+
+      const b = await fetch(`/api/bank/balance/${user.id}`);
+      const bj = await b.json();
+      document.getElementById("bankInfo").innerText = `Your Bank Balance: ${bj.balance || 0}`;
+
+    }
+
+    // redirect to course details page
+    function openCourse(id) {
+      location.href = `/course-learner.html?id=${id}`;
+    }
+
+    function logout() {
+      localStorage.removeItem("user");
+      location.href = "/login.html";
+    }
+
+    load();
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "lms-project",
+  "version": "1.0.0",
+  "description": "LMS project using Node.js + REST APIs with JSON file storage",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "You",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "pdfkit": "^0.17.2",
+    "uuid": "^9.0.0"
+  }
+}

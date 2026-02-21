@@ -1,0 +1,137 @@
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background:
+        linear-gradient(rgba(74, 124, 210, 0.5), rgba(61, 108, 190, 0.7));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+}
+
+/* Overlay */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 20, 60, 0.35);
+    backdrop-filter: blur(2px);
+}
+
+/* Glass card */
+.card {
+    position: relative;
+    z-index: 2;
+    width: 380px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 40px 30px 30px 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: #e8f0ff;
+}
+
+/* Back button top-right */
+.back-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+.back-btn:hover {
+    opacity: 0.8;
+    background: #4f46e5;
+}
+
+
+/* Headings */
+h2 {
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 24px;
+}
+
+p.sub {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #2f4c8b;
+    font-size: 14px;
+}
+
+/* Input group */
+.input-group {
+    position: relative;
+}
+
+.input-group i.icon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: #90c4ff;
+}
+
+.input-group input {
+    width: 90%;
+    padding: 12px 12px 12px 36px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid rgba(200, 200, 200, 0.3);
+    font-size: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    backdrop-filter: blur(5px);
+}
+
+.input-group input::placeholder {
+    color: #c0d4ff;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #4f46e5;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.25s ease;
+}
+
+button:hover {
+    background: #3730a3;
+}
+
+/* Message text */
+#msg {
+    text-align: center;
+    color: #aad4ff;
+    margin-top: 10px;
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+    .card {
+        width: 90%;
+        padding: 30px 20px 20px 20px;
+    }
+}

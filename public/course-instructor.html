@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Instructor Course Page</title>
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+
+<body>
+  <div class="app">
+    <div class="card">
+      <div class="header">
+        <h2 id="title">Manage Course</h2>
+        <button class="nav-btn back-btn" onclick="goBack()">Back</button>
+      </div>
+
+      <div id="main"></div>
+    </div>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) location.href = "/login.html";
+
+    // user exist then go to dashboard
+    function goBack() {
+      location.href = "/dashboard-instructor.html";
+    }
+
+    // load each course and upload their content
+    async function load() {
+      const params = new URLSearchParams(location.search);
+      const id = params.get("id");
+      const res = await fetch("/api/courses");
+      const courses = await res.json();
+      const course = courses.find(c => c.id === id);
+      if (!course) { document.getElementById("main").innerText = "Course not found"; return; }
+
+      document.getElementById("title").innerText = course.title;
+
+      const studentsHTML = course.students && course.students.length
+        ? course.students.map(s => `<div class="student-row"><span>${s.userId}</span></div>`).join("")
+        : "<div class='small'>No students yet</div>";
+
+      document.getElementById("main").innerHTML = `
+    <h3>Course Materials</h3>
+    <div id="materials">${course.materials.map(m => `<div>${m.title} (${m.type || ''})</div>`).join("")}</div>
+
+    <div style="margin-top:15px;">
+      <h4>Add New Material</h4>
+      <input id="matTitle" placeholder="Material title" />
+      <input id="matURL" placeholder="Material URL" />
+      <select id="matType">
+        <option value="video">Video</option>
+        <option value="Docs">Text</option>
+        <option value="Website">Website</option>
+      </select>
+      <button onclick="addMaterial('${course.id}')">Add</button>
+    </div>
+
+    <div style="margin-top:20px;">
+      <h3>Students</h3>
+      ${studentsHTML}
+    </div>
+  `;
+    }
+
+    // course material uploaded by Teacher
+    async function addMaterial(courseId) {
+      const title = document.getElementById("matTitle").value;
+      const url = document.getElementById("matURL").value;
+      const type = document.getElementById("matType").value;
+      await fetch(`/api/courses/${courseId}/material`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, url, type })
+      });
+      load();
+    }
+
+    load();
+  </script>
+</body>
+
+</html>

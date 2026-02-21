@@ -1,0 +1,175 @@
+/* Body + Background */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    background:
+        linear-gradient(rgba(10, 40, 90, 0.5), rgba(10, 40, 90, 0.7)),
+        url("../images/homeBg.png") no-repeat center center / cover;
+
+    position: relative;
+}
+
+/* Optional overlay */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 20, 60, 0.35);
+    backdrop-filter: blur(2px);
+}
+
+/* Center container */
+.home-container {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Glass effect card */
+.home-card {
+    background: rgba(255, 255, 255, 0.12);
+    padding: 40px 50px;
+    width: 420px;
+    text-align: center;
+    border-radius: 15px;
+
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    /* spacing between card children */
+}
+
+/* Title */
+.home-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #e8f0ff;
+    margin-bottom: 0;
+}
+
+.home-title i {
+    margin-right: 10px;
+    color: #90c4ff;
+}
+
+/* Description & Features */
+.home-content {
+    text-align: center;
+    color: #e8f0ff;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* spacing between description, features, promo */
+}
+
+.home-description {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #dbe5ff;
+    margin: 0;
+}
+
+/* Features */
+.home-features {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.feature-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #c0d4ff;
+    transition: 0.25s ease;
+}
+
+.feature-item i {
+    color: #90c4ff;
+}
+
+.feature-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+/* Register Promo */
+.home-register-promo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    /* spacing between text and button */
+    background: rgba(255, 255, 255, 0.08);
+    padding: 20px 15px;
+    border-radius: 12px;
+    color: #dbe5ff;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: 0.3s ease;
+}
+
+.home-register-promo p {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.home-register-promo:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.home-register-promo .home-btn {
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+/* Button */
+.home-btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.home-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    border-radius: 10px;
+
+    background: #1976d2;
+    color: #fff;
+    text-decoration: none;
+
+    transition: 0.25s ease;
+}
+
+.home-btn:hover {
+    background: #1565c0;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .home-card {
+        width: 90%;
+        padding: 25px;
+    }
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Setup</title>
+    <link rel="stylesheet" href="../css/bankStyle.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="overlay"></div>
+
+    <div class="card">
+        <!-- Back button -->
+        <a href="/" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+
+        <!-- Card Content -->
+        <h2>Bank Setup</h2>
+        <p class="sub">Complete your profile to continue</p>
+
+        <div class="input-group">
+            <i class="fa-solid fa-id-card icon"></i>
+            <input id="acc" type="text" placeholder="Account Number">
+        </div>
+
+        <div class="input-group">
+            <i class="fa-solid fa-key icon"></i>
+            <input id="sec" type="password" placeholder="Secret PIN">
+        </div>
+
+        <button onclick="saveBank()">Save & Continue</button>
+
+        <p id="msg"></p>
+    </div>
+
+    <script>
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user) location.href = "/login.html";
+
+        // saving bank details
+        async function saveBank() {
+            const accountNumber = document.getElementById("acc").value;
+            const secret = document.getElementById("sec").value;
+
+            if (!accountNumber || !secret) {
+                document.getElementById("msg").innerText = "All fields required!";
+                return;
+            }
+
+            const res = await fetch("/api/bank/setup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    userId: user.id,
+                    accountNumber,
+                    secret,
+                    startingBalance: 4000
+                })
+            });
+
+            const data = await res.json();
+
+            document.getElementById("msg").innerText = data.message || data.error;
+
+            if (data.message) {
+                setTimeout(() => {
+                    if (user.role === "instructor")
+                        location.href = "/dashboard-instructor.html";
+                    else
+                        location.href = "/dashboard-learner.html";
+                }, 1200);
+            }
+        }
+    </script>
+
+</body>
+
+</html>

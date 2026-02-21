@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Login / Register</title>
+  <link rel="stylesheet" href="./css/loginStyle.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+  <div class="card">
+
+    <a href="index.html" class="back-btn">
+      <i class="fa-solid fa-arrow-left"></i> Back to Home
+    </a>
+
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" id="tabLogin" onclick="switchTab('login')">Login</div>
+      <div class="tab" id="tabRegister" onclick="switchTab('register')">Register</div>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="loginBox">
+      <h2>Welcome Back</h2>
+      <p class="sub">Sign in to your account</p>
+
+      <input id="loginEmail" placeholder="Email Address" />
+      <input id="loginPassword" type="password" placeholder="Password" />
+
+      <div class="row">
+        <label><input type="checkbox"> Remember me</label>
+      </div>
+
+      <button onclick="login()">Sign In</button>
+
+
+      <div class="footer-text">
+        Don't have an account? <a onclick="switchTab('register')">Sign up</a>
+      </div>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="registerBox">
+      <h2>Create Account</h2>
+      <p class="sub">Fill the form to register</p>
+
+      <input id="regName" placeholder="Full Name" />
+      <input id="regEmail" placeholder="Email Address" />
+      <input id="regPassword" type="password" placeholder="Password" />
+
+      <select id="regRole">
+        <option value="learner">Learner</option>
+        <option value="instructor">Instructor</option>
+      </select>
+
+      <button onclick="register()">Register</button>
+
+      <div class="footer-text">
+        Already have an account? <a onclick="switchTab('login')">Login</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // for switching login & register
+    function switchTab(tab) {
+      document.getElementById("tabLogin").classList.remove("active");
+      document.getElementById("tabRegister").classList.remove("active");
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("registerBox").style.display = "none";
+
+      if (tab === "login") {
+        document.getElementById("tabLogin").classList.add("active");
+        document.getElementById("loginBox").style.display = "block";
+      } else {
+        document.getElementById("tabRegister").classList.add("active");
+        document.getElementById("registerBox").style.display = "block";
+      }
+    }
+
+    // for register information
+    // POST /api/auth/register
+    async function register() {
+      // from reg form to take input values 
+      const name = document.getElementById("regName").value;
+      const email = document.getElementById("regEmail").value;
+      const password = document.getElementById("regPassword").value;
+      const role = document.getElementById("regRole").value;
+
+      // sending post reg to create new users
+      // fetch for sending req to server
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password, role })
+      });
+
+      // server res to store here to check user object is in res or not
+      const j = await res.json();
+
+      if (j.user) {
+        alert("Registered. Logging in...");
+        // to store data in locally 
+        localStorage.setItem("user", JSON.stringify(j.user));
+
+        if (role === "learner" || role === "instructor") {
+          location.href = "/bank-setup.html";
+        } else {
+          location.href = "/index.html";
+        }
+      } else {
+        alert(j.error || "Registration failed");
+      }
+    }
+
+    // for login information
+    // POST /api/auth/login
+    async function login() {
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      // using fetch to send POST req
+      // fetch is like sening req to server
+      const res = await fetch("/api/auth/login", {
+        method: "POST", // send login credentials using it
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      // server res to store in data for comparing that user exist or not
+      const data = await res.json();
+
+      if (!data.user) {
+        alert(data.error || "Login failed");
+        return;
+      }
+
+      // to store data in local so that ui can use in future
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      // for checking that bank acc is exist or not via GET method
+      // GET /api/bank/balance/:userId
+      const bankRes = await fetch(`/api/bank/balance/${data.user.id}`);
+      const bankData = await bankRes.json();
+
+      if (bankData.error === "Account not found") {
+        location.href = "/bank-setup.html";
+      } else {
+        if (data.user.role === "learner") {
+          location.href = "/dashboard-learner.html";
+        } else {
+          location.href = "/dashboard-instructor.html";
+        }
+      }
+    }
+
+  </script>
+
+</body>
+
+</html>

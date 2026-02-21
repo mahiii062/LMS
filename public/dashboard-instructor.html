@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Instructor Dashboard</title>
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <style>
+    .approval-card {
+      background: #0b1220;
+      border: 1px solid #1e2d45;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .approval-info strong { display: block; font-size: 15px; }
+    .approval-info span { font-size: 13px; color: #8899aa; }
+    .btn-approve {
+      background: #00e6a8;
+      color: #0a1128;
+      font-weight: bold;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn-approve:hover { background: #00c992; }
+    .no-pending { color: #556677; font-size: 14px; padding: 8px 0; }
+  </style>
+</head>
+
+<body class="page-bg">
+  <div class="app">
+    <div class="card">
+      <div class="header">
+        <h2 id="greet">Instructor Dashboard</h2>
+        <button onclick="logout()">Logout</button>
+      </div>
+
+      <div id="bankInfo" class="small"></div>
+
+      <h3>Your Courses</h3>
+      <div id="myCourses" class="course-list"></div>
+
+      <h3>Add Course</h3>
+      <input id="newTitle" placeholder="Course title">
+      <input id="newPrice" placeholder="Course price">
+      <button onclick="addCourse()">Add Course</button>
+      <p id="addMsg" class="note"></p>
+
+      <h3>Collect Payments</h3>
+      <button onclick="collectFunds()">Collect Money</button>
+      <p id="collectMsg" class="note"></p>
+
+      <!-- NEW SECTION -->
+      <h3>📋 Pending Completion Approvals</h3>
+      <div id="pendingList"></div>
+      <p id="approveMsg" class="note"></p>
+    </div>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || user.role !== "instructor") location.href = "/login.html";
+    document.getElementById("greet").innerText = `Welcome, ${user.name}`;
+
+    async function load() {
+      // Load courses
+      const cR = await fetch("/api/courses");
+      const courses = await cR.json();
+      const mine = courses.filter(c => c.instructorId === user.id);
+      const box = document.getElementById("myCourses");
+      box.innerHTML = "";
+      mine.forEach(c => {
+        box.innerHTML += `<div class="course"><strong>${c.title}</strong><div class="small">Price: ${c.price}</div><button onclick="openCourse('${c.id}')">Open</button></div>`;
+      });
+
+      // Load bank balance
+      const b = await fetch(`/api/bank/balance/${user.id}`);
+      const bj = await b.json();
+      document.getElementById("bankInfo").innerText = `Your Bank Balance: ${bj.balance || 0}`;
+
+      // Load pending approvals
+      await loadPendingApprovals();
+    }
+
+    async function loadPendingApprovals() {
+      const res = await fetch(`/api/instructor/pending-approvals/${user.id}`);
+      const list = await res.json();
+      const container = document.getElementById("pendingList");
+
+      if (!list.length) {
+        container.innerHTML = `<div class="no-pending">No pending requests at the moment.</div>`;
+        return;
+      }
+
+      container.innerHTML = list.map(item => `
+        <div class="approval-card">
+          <div class="approval-info">
+            <strong>${item.learnerName}</strong>
+            <span>wants a certificate for: <em>${item.courseTitle}</em></span>
+          </div>
+          <button class="btn-approve" onclick="approveCompletion('${item.userId}', '${item.courseId}', this)">
+            ✅ Approve
+          </button>
+        </div>
+      `).join("");
+    }
+
+    async function approveCompletion(userId, courseId, btn) {
+      btn.disabled = true;
+      btn.innerText = "Approving...";
+
+      const res = await fetch("/api/instructor/approve-completion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ instructorId: user.id, userId, courseId })
+      });
+      const j = await res.json();
+
+      if (res.ok) {
+        document.getElementById("approveMsg").innerText = "✅ " + j.message;
+        await loadPendingApprovals(); // refresh the list
+      } else {
+        document.getElementById("approveMsg").innerText = "❌ " + (j.error || "Something went wrong");
+        btn.disabled = false;
+        btn.innerText = "✅ Approve";
+      }
+    }
+
+    function openCourse(id) { location.href = `/course-instructor.html?id=${id}`; }
+
+    async function addCourse() {
+      const title = document.getElementById("newTitle").value;
+      const price = document.getElementById("newPrice").value;
+      const res = await fetch("/api/courses/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ instructorId: user.id, title, price })
+      });
+      const j = await res.json();
+      document.getElementById("addMsg").innerText = j.message || j.error;
+      load();
+    }
+
+    async function collectFunds() {
+      const secret = prompt("Enter bank secret:");
+      if (!secret) return;
+      const res = await fetch("/api/instructor/collect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ instructorId: user.id, secret })
+      });
+      const j = await res.json();
+      document.getElementById("collectMsg").innerText = j.message || j.error;
+      load();
+    }
+
+    function logout() { localStorage.removeItem("user"); location.href = "/login.html"; }
+
+    load();
+  </script>
+</body>
+
+</html>

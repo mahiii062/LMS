@@ -18,8 +18,17 @@
       flex-wrap: wrap;
       gap: 10px;
     }
-    .approval-info strong { display: block; font-size: 15px; }
-    .approval-info span { font-size: 13px; color: #8899aa; }
+
+    .approval-info strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .approval-info span {
+      font-size: 13px;
+      color: #8899aa;
+    }
+
     .btn-approve {
       background: #00e6a8;
       color: #0a1128;
@@ -29,8 +38,16 @@
       border-radius: 8px;
       cursor: pointer;
     }
-    .btn-approve:hover { background: #00c992; }
-    .no-pending { color: #556677; font-size: 14px; padding: 8px 0; }
+
+    .btn-approve:hover {
+      background: #00c992;
+    }
+
+    .no-pending {
+      color: #556677;
+      font-size: 14px;
+      padding: 8px 0;
+    }
   </style>
 </head>
 
@@ -39,7 +56,7 @@
     <div class="card">
       <div class="header">
         <h2 id="greet">Instructor Dashboard</h2>
-        <button onclick="logout()">Logout</button>
+        <button class="logout-btn" onclick="logout()">Logout</button>
       </div>
 
       <div id="bankInfo" class="small"></div>

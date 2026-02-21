@@ -12,7 +12,13 @@
         "url": "https://www.geeksforgeeks.org/artificial-intelligence/artificial-intelligence/"
       }
     ],
-    "students": []
+    "students": [
+      {
+        "userId": "61f47445-6769-41c5-8fcf-986e46bdaa4c",
+        "unlocked": true,
+        "completionStatus": "approved"
+      }
+    ]
   },
   {
     "id": "45ff9431-25a1-4df7-837a-a1fc98e49796",
@@ -25,9 +31,21 @@
         "type": "Website",
         "title": "Operating System(OS)",
         "url": "https://www.geeksforgeeks.org/operating-systems/operating-systems/"
+      },
+      {
+        "id": "303060a5-fb56-4347-a366-3e6812ca3735",
+        "type": "video",
+        "title": "Class Lecture",
+        "url": "https://youtube.com/playlist?list=PLncy2sD7w4Yr3ZbiP_ipAjgjDRn86N_tT&si=bqr3jPDHBw55FP4k"
       }
     ],
-    "students": []
+    "students": [
+      {
+        "userId": "61f47445-6769-41c5-8fcf-986e46bdaa4c",
+        "unlocked": true,
+        "completionStatus": "approved"
+      }
+    ]
   },
   {
     "id": "0d4f0229-6d47-4fcb-b00c-38ea53dd9810",

@@ -16,7 +16,9 @@
       </div>
       <div id="bankInfo" class="small"></div>
       <h3>Available Courses</h3>
-      <div id="coursesArea" class="course-list"></div>
+      <div id="availableArea" class="course-list"></div>
+      <h3>Purchased Courses</h3>
+      <div id="purchasedArea" class="course-list"></div>
     </div>
   </div>
 
@@ -29,25 +31,41 @@
 
     // show all courses in the user dashboard
     async function load() {
-      const cR = await fetch("/api/courses");
-      const courses = await cR.json();
 
-      const area = document.getElementById("coursesArea");
-      area.innerHTML = "";
+      const res = await fetch(`/api/learner/dashboard/${user.id}`);
+      const data = await res.json();
 
-      courses.forEach(c => {
-        area.innerHTML += `
-        <div class="course">
-          <strong>${c.title}</strong>
-          <div class="small">Price: ${c.price}</div>
-          <button onclick="openCourse('${c.id}')">View</button>
-        </div>`;
+      const availableArea = document.getElementById("availableArea");
+      const purchasedArea = document.getElementById("purchasedArea");
+
+      availableArea.innerHTML = "";
+      purchasedArea.innerHTML = "";
+
+      // Available Courses
+      data.availableCourses.forEach(c => {
+        availableArea.innerHTML += `
+      <div class="course">
+        <strong>${c.title}</strong>
+        <div class="small">Price: ${c.price}</div>
+        <button onclick="openCourse('${c.id}')">View</button>
+      </div>`;
       });
 
+      // Purchased Courses
+      data.purchasedCourses.forEach(c => {
+        purchasedArea.innerHTML += `
+      <div class="course">
+        <strong>${c.title}</strong>
+        <div class="small">Already Purchased</div>
+        <button onclick="openCourse('${c.id}')">Go to Course</button>
+      </div>`;
+      });
+
+      // Bank Balance
       const b = await fetch(`/api/bank/balance/${user.id}`);
       const bj = await b.json();
-      document.getElementById("bankInfo").innerText = `Your Bank Balance: ${bj.balance || 0}`;
-
+      document.getElementById("bankInfo").innerText =
+        `Your Bank Balance: ${bj.balance || 0}`;
     }
 
     // redirect to course details page

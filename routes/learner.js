@@ -75,5 +75,30 @@ router.post("/request-completion", (req, res) => {
 
   res.json({ message: "Completion request sent to instructor. Please wait for approval." });
 });
+// GET Learner Dashboard Data (Available + Purchased)
+router.get("/dashboard/:userId", (req, res) => {
+  const userId = req.params.userId;
 
+  const courses = readJSON("courses.json");
+
+  const purchasedCourses = [];
+  const availableCourses = [];
+
+  courses.forEach(course => {
+    const student = (course.students || []).find(
+      s => s.userId === userId
+    );
+
+    if (student && student.unlocked) {
+      purchasedCourses.push(course);
+    } else {
+      availableCourses.push(course);
+    }
+  });
+
+  res.json({
+    availableCourses,
+    purchasedCourses
+  });
+});
 module.exports = router;

@@ -15,18 +15,24 @@
     "userId": "teacher-2",
     "accountNumber": "TEACHER-002",
     "secret": "secret002",
-    "balance": 4200
+    "balance": 4800
   },
   {
     "userId": "teacher-3",
     "accountNumber": "TEACHER-003",
     "secret": "secret003",
-    "balance": 4200
+    "balance": 4800
   },
   {
     "userId": "2313e1ee-f926-443c-b7de-09ae42e1b690",
     "accountNumber": "LEARNER-001",
     "secret": "1234",
     "balance": 3400
+  },
+  {
+    "userId": "61f47445-6769-41c5-8fcf-986e46bdaa4c",
+    "accountNumber": "LEARNER-002",
+    "secret": "1234",
+    "balance": 2800
   }
 ]

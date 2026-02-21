@@ -6,5 +6,21 @@
     "instructorId": "teacher-1",
     "amount": 600,
     "status": "completed"
+  },
+  {
+    "id": "f87c7028-d215-42cc-8e4e-109f920086ed",
+    "learnerId": "61f47445-6769-41c5-8fcf-986e46bdaa4c",
+    "courseId": "458a33c6-a629-4ba6-aa24-3fd1cfba44c4",
+    "instructorId": "teacher-3",
+    "amount": 600,
+    "status": "completed"
+  },
+  {
+    "id": "f5f9dc81-513b-4f6f-80e5-56c27b5625ba",
+    "learnerId": "61f47445-6769-41c5-8fcf-986e46bdaa4c",
+    "courseId": "45ff9431-25a1-4df7-837a-a1fc98e49796",
+    "instructorId": "teacher-2",
+    "amount": 600,
+    "status": "completed"
   }
 ]

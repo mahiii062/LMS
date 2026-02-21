@@ -1,0 +1,32 @@
+[
+  {
+    "userId": "LMS",
+    "accountNumber": "ACC-LMS-000",
+    "secret": "lmssecret",
+    "balance": 10000
+  },
+  {
+    "userId": "teacher-1",
+    "accountNumber": "TEACHER-001",
+    "secret": "secret001",
+    "balance": 4800
+  },
+  {
+    "userId": "teacher-2",
+    "accountNumber": "TEACHER-002",
+    "secret": "secret002",
+    "balance": 4200
+  },
+  {
+    "userId": "teacher-3",
+    "accountNumber": "TEACHER-003",
+    "secret": "secret003",
+    "balance": 4200
+  },
+  {
+    "userId": "2313e1ee-f926-443c-b7de-09ae42e1b690",
+    "accountNumber": "LEARNER-001",
+    "secret": "1234",
+    "balance": 3400
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "id": "16a3e21f-2c9c-467b-a39c-66e60908f47f",
+    "learnerId": "2313e1ee-f926-443c-b7de-09ae42e1b690",
+    "courseId": "0d4f0229-6d47-4fcb-b00c-38ea53dd9810",
+    "instructorId": "teacher-1",
+    "amount": 600,
+    "status": "completed"
+  }
+]

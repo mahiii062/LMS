@@ -1,0 +1,30 @@
+[
+  {
+    "id": "teacher-1",
+    "name": "IZ",
+    "email": "teacher1@edu.com",
+    "password": "pass1",
+    "role": "instructor"
+  },
+  {
+    "id": "teacher-2",
+    "name": "MSI",
+    "email": "teacher2@edu.com",
+    "password": "pass2",
+    "role": "instructor"
+  },
+  {
+    "id": "teacher-3",
+    "name": "HAC",
+    "email": "teacher3@edu.com",
+    "password": "pass3",
+    "role": "instructor"
+  },
+  {
+    "id": "2313e1ee-f926-443c-b7de-09ae42e1b690",
+    "name": "Mahi A Rashed Mashfik",
+    "email": "mahi@gmail.com",
+    "password": "1234",
+    "role": "learner"
+  }
+]

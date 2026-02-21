@@ -1,0 +1,59 @@
+[
+  {
+    "id": "458a33c6-a629-4ba6-aa24-3fd1cfba44c4",
+    "title": "Artificial Intelligence(AI)",
+    "price": 600,
+    "instructorId": "teacher-3",
+    "materials": [
+      {
+        "id": "77f1816e-8275-4f83-b7a0-d8efd3e55cde",
+        "type": "Website",
+        "title": "Artificial Intelligence",
+        "url": "https://www.geeksforgeeks.org/artificial-intelligence/artificial-intelligence/"
+      }
+    ],
+    "students": []
+  },
+  {
+    "id": "45ff9431-25a1-4df7-837a-a1fc98e49796",
+    "title": "Operating System(OS)",
+    "price": 600,
+    "instructorId": "teacher-2",
+    "materials": [
+      {
+        "id": "b8ae5d3f-993d-4f58-980e-673478804227",
+        "type": "Website",
+        "title": "Operating System(OS)",
+        "url": "https://www.geeksforgeeks.org/operating-systems/operating-systems/"
+      }
+    ],
+    "students": []
+  },
+  {
+    "id": "0d4f0229-6d47-4fcb-b00c-38ea53dd9810",
+    "title": "Database System(DB)",
+    "price": 600,
+    "instructorId": "teacher-1",
+    "materials": [
+      {
+        "id": "18fb4f5a-115b-438d-93f0-0c431c7e1151",
+        "type": "video",
+        "title": "Database System(DB)",
+        "url": "https://youtube.com/playlist?list=PLgrAmbRAezuhRWTyOKPxvoiyNQfPo6Iv3&si=2RXclfARYbmdaJii"
+      },
+      {
+        "id": "555805dd-99c4-4478-8ed6-30ac57edb5a7",
+        "type": "Website",
+        "title": "Database System(DB)",
+        "url": "https://db-book.com/"
+      }
+    ],
+    "students": [
+      {
+        "userId": "2313e1ee-f926-443c-b7de-09ae42e1b690",
+        "unlocked": true,
+        "completionStatus": "approved"
+      }
+    ]
+  }
+]

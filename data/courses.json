@@ -22,6 +22,11 @@
         "userId": "2313e1ee-f926-443c-b7de-09ae42e1b690",
         "unlocked": true,
         "completionStatus": "approved"
+      },
+      {
+        "userId": "3123e59e-7530-480c-83ff-39424ae7808e",
+        "unlocked": true,
+        "completionStatus": "approved"
       }
     ]
   },
@@ -78,5 +83,13 @@
         "completionStatus": "approved"
       }
     ]
+  },
+  {
+    "id": "f33a192f-6cb5-4d3a-b998-30b9c6005c10",
+    "title": "P250",
+    "price": 10,
+    "instructorId": "teacher-3",
+    "materials": [],
+    "students": []
   }
 ]

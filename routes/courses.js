@@ -39,11 +39,17 @@ router.post("/add", (req, res) => {
   // Reward instructor for adding course
   const bank = readJSON("bank.json");
   const instBank = bank.find(b => b.userId === instructorId);
-
-  if (instBank) {
-    instBank.balance += 200;  // reward for uploading a course
+  const lmsBank = bank.find(b => b.userId === "LMS");
+  if (lmsBank && instBank) {
+    lmsBank.balance -= 200;  // LMS pays reward
+    instBank.balance += 200;  // Instructor receives reward
     writeJSON("bank.json", bank);
   }
+
+  // if (instBank) {
+  //   instBank.balance += 200;  // reward for uploading a course
+  //   writeJSON("bank.json", bank);
+  // }
 
   res.json({ message: "Course added & instructor rewarded", course: newCourse });
 });

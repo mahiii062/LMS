@@ -33,5 +33,19 @@
     "email": "rashed@gmail.com",
     "password": "1234",
     "role": "learner"
+  },
+  {
+    "id": "f36e77d7-34f9-47f4-91ec-8c8e72a495ae",
+    "name": "Neelima",
+    "email": "neelima@gmail.com",
+    "password": "1234",
+    "role": "learner"
+  },
+  {
+    "id": "3123e59e-7530-480c-83ff-39424ae7808e",
+    "name": "ABC",
+    "email": "abc@gmail.com",
+    "password": "1234",
+    "role": "learner"
   }
 ]

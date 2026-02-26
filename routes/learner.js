@@ -17,7 +17,7 @@ router.post("/buy", (req, res) => {
   const course = courses.find(c => c.id === courseId);
   if (!course) return res.status(404).json({ error: "Course not found" });
 
-  const bank = readJSON("bank.json");
+  const bank = reNadJSO("bank.json");
   const learnerAcc = bank.find(b => b.userId === userId);
   const instAcc = bank.find(b => b.userId === course.instructorId);
   const lmsAcc = bank.find(b => b.userId === "LMS");

@@ -81,6 +81,11 @@
         "userId": "2313e1ee-f926-443c-b7de-09ae42e1b690",
         "unlocked": true,
         "completionStatus": "approved"
+      },
+      {
+        "userId": "7d8255d0-c238-428b-b94c-c6bcb110c922",
+        "unlocked": true,
+        "completionStatus": "none"
       }
     ]
   },

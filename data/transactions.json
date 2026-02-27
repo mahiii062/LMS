@@ -38,5 +38,13 @@
     "instructorId": "teacher-3",
     "amount": 600,
     "status": "completed"
+  },
+  {
+    "id": "a59455ab-8cd7-412b-af9c-1fba0c4c5649",
+    "learnerId": "7d8255d0-c238-428b-b94c-c6bcb110c922",
+    "courseId": "0d4f0229-6d47-4fcb-b00c-38ea53dd9810",
+    "instructorId": "teacher-1",
+    "amount": 600,
+    "status": "pending"
   }
 ]

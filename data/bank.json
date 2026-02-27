@@ -3,7 +3,7 @@
     "userId": "LMS",
     "accountNumber": "ACC-LMS-000",
     "secret": "lmssecret",
-    "balance": 9800
+    "balance": 10400
   },
   {
     "userId": "teacher-1",
@@ -38,6 +38,12 @@
   {
     "userId": "3123e59e-7530-480c-83ff-39424ae7808e",
     "accountNumber": "121212",
+    "secret": "1234",
+    "balance": 3400
+  },
+  {
+    "userId": "7d8255d0-c238-428b-b94c-c6bcb110c922",
+    "accountNumber": "12121212",
     "secret": "1234",
     "balance": 3400
   }

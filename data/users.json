@@ -47,5 +47,12 @@
     "email": "abc@gmail.com",
     "password": "1234",
     "role": "learner"
+  },
+  {
+    "id": "7d8255d0-c238-428b-b94c-c6bcb110c922",
+    "name": "Mahi A Rashed Mashfik",
+    "email": "mahi.mashfik@gmail.com",
+    "password": "1234",
+    "role": "learner"
   }
 ]
